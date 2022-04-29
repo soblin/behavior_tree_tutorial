@@ -72,21 +72,19 @@ BT::NodeStatus SaySomethingSimple(BT::TreeNode &self) {
   return BT::NodeStatus::SUCCESS;
 };
 
-void RegisterNodes(BT::BehaviorTreeFactory &factory) {
-  static GripperInterface grip_singleton;
+int main() {
+  BT::BehaviorTreeFactory factory;
 
+  factory.registerNodeType<ApproachObject>("ApproachObject");
   factory.registerSimpleCondition("CheckBattery", std::bind(CheckBattery));
   factory.registerSimpleCondition("CheckTemperature",
                                   std::bind(CheckTemperature));
-  factory.registerSimpleAction("SayHello", std::bind(SayHello));
-  factory.registerSimpleAction(
-      "OpenGripper", std::bind(&GripperInterface::open, &grip_singleton));
-  factory.registerSimpleAction(
-      "CloseGrippe", std::bind(&GripperInterface::close, &grip_singleton));
-  factory.registerNodeType<ApproachObject>("ApproachObject");
-  factory.registerNodeType<SaySomething>("SaySomething");
+  GripperInterface gripper;
+  factory.registerSimpleAction("OpenGripper",
+                               std::bind(&GripperInterface::open, &gripper));
+  factory.registerSimpleAction("CloseGripper",
+                               std::bind(&GripperInterface::close, &gripper));
+  auto tree = factory.createTreeFromFile("./my_tree.xml");
+  tree.tickRoot();
+  return 0;
 }
-
-BT_REGISTER_NODES(factory) { RegisterNodes(factory); }
-
-int main() { return 0; }
