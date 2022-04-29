@@ -1,4 +1,5 @@
 #include <iostream>
+#include <experimental/filesystem>
 #include <behaviortree_cpp_v3/behavior_tree.h>
 #include <behaviortree_cpp_v3/bt_factory.h>
 
@@ -72,7 +73,7 @@ BT::NodeStatus SaySomethingSimple(BT::TreeNode &self) {
   return BT::NodeStatus::SUCCESS;
 };
 
-int main() {
+int main(int argc, char **argv) {
   BT::BehaviorTreeFactory factory;
 
   factory.registerNodeType<ApproachObject>("ApproachObject");
@@ -84,7 +85,17 @@ int main() {
                                std::bind(&GripperInterface::open, &gripper));
   factory.registerSimpleAction("CloseGripper",
                                std::bind(&GripperInterface::close, &gripper));
-  auto tree = factory.createTreeFromFile("./my_tree.xml");
+  std::string xml_path_abs = "./my_tree.xml";
+  if (argc >= 2) {
+    std::string xml_path_arg = std::string(argv[1]);
+    auto cd = std::experimental::filesystem::current_path();
+    if (xml_path_arg[0] == '/') {
+      xml_path_abs = xml_path_arg;
+    } else {
+      xml_path_abs = std::string(cd.concat("/" + xml_path_arg));
+    }
+  }
+  auto tree = factory.createTreeFromFile(xml_path_abs);
   tree.tickRoot();
   return 0;
 }
