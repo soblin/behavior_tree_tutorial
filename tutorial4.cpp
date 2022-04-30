@@ -97,6 +97,9 @@ int main(int argc, char **argv) {
       xml_path_abs = xml_path_arg;
     else
       xml_path_abs = std::string(cd.concat("/" + xml_path_arg));
+  } else {
+    std::cout << "specify xml file." << std::endl;
+    return 0;
   }
   auto tree = factory.createTreeFromFile(xml_path_abs);
 
