@@ -10,3 +10,6 @@ target_link_libraries(tutorial1 PUBLIC BT::behaviortree_cpp_v3 stdc++fs)
 
 add_executable(tutorial2 tutorial2.cpp)
 target_link_libraries(tutorial2 PUBLIC BT::behaviortree_cpp_v3 stdc++fs)
+
+add_executable(tutorial3 tutorial3.cpp)
+target_link_libraries(tutorial3 PUBLIC BT::behaviortree_cpp_v3 stdc++fs)
