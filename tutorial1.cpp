@@ -85,7 +85,7 @@ int main(int argc, char **argv) {
                                std::bind(&GripperInterface::open, &gripper));
   factory.registerSimpleAction("CloseGripper",
                                std::bind(&GripperInterface::close, &gripper));
-  std::string xml_path_abs = "./my_tree.xml";
+  std::string xml_path_abs = "./tutorial1.xml";
   if (argc >= 2) {
     std::string xml_path_arg = std::string(argv[1]);
     auto cd = std::experimental::filesystem::current_path();

@@ -1,0 +1,11 @@
+<root main_tree_to_execute="MainTree">
+  <BehaviorTree ID="MainTree">
+	<Sequence name="root_sequence">
+	  <SaySomething message="hello"/>
+	  <SaySomething2 message="this works too"/>
+	  <ThinkWhatToSay text="{the_answer}"/>
+	  <!-- ThinkWhatToSay has Output port, and this port is named "the_answer" here. And the Input port of SaySomething is also named "the_answer" here, so they can pass "text" and "message" through "the_answer" port -->
+	  <SaySomething message="{the_answer}"/>
+	</Sequence>
+  </BehaviorTree>
+</root>
